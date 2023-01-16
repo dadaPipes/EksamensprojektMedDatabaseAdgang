@@ -44,26 +44,40 @@
     <TextBox Name="ID" Grid.Row="1" Grid.Column="1" Margin="5,8,5,8" Padding="3" Text="{Binding VM_TempWorker.Id, Mode=OneWay}" />
     <TextBox Name="FirstName" Grid.Row="2" Grid.Column="1" Margin="5,8,5,8" Padding="3" Text="{Binding VM_TempWorker.FirstName, Mode=TwoWay}" />
     <TextBox Name="LastName" Grid.Row="3" Grid.Column="1" Margin="5,8,5,8" Padding="3" Text="{Binding VM_TempWorker.LastName, Mode=TwoWay}" />
-    <TextBox Name="Address" Grid.Row="4" Grid.Column="1" Margin="5,8,5,8" Padding="3" Text="{Binding VM_TempWorker.Address, Mode=TwoWay} " />
-    <TextBox Name="City" Grid.Row="5" Grid.Column="1" Margin="5,8,5,8" Padding="3" Text="{Binding VM_TempWorker.Address, Mode=TwoWay}" />
-    <TextBox Name="ZipCode" Grid.Row="6" Grid.Column="1" Margin="5,8,5,8" Padding="3" Text="{Binding VM_TempWorker.City, Mode=TwoWay}" />
-    <TextBox Name="PersonalNumber" Grid.Row="7" Grid.Column="1" Margin="5,8,5,8" Padding="3" Text="{Binding VM_TempWorker.ZipCode, Mode=TwoWay}" />
+    <TextBox Name="Address" Grid.Row="4" Grid.Column="1" Margin="5,8,5,8" Padding="3" Text="{Binding VM_TempWorker.Address, Mode=TwoWay}" />
+    <TextBox Name="City" Grid.Row="5" Grid.Column="1" Margin="5,8,5,8" Padding="3" Text="{Binding VM_TempWorker.City, Mode=TwoWay}" />
+    <TextBox Name="ZipCode" Grid.Row="6" Grid.Column="1" Margin="5,8,5,8" Padding="3" Text="{Binding VM_TempWorker.ZipCode, Mode=TwoWay}" />
+    <TextBox Name="PersonalNumber" Grid.Row="7" Grid.Column="1" Margin="5,8,5,8" Padding="3" Text="{Binding VM_TempWorker.PersonalNumber, Mode=TwoWay}" />
 
     <RadioButton Grid.Column="1" Content="Aktiv" HorizontalAlignment="Left" Margin="28,0,0,0" Grid.Row="8" VerticalAlignment="Center" />
     <RadioButton Grid.Column="1" Content="Ikke Aktiv" HorizontalAlignment="Left" Margin="123,0,0,0" Grid.Row="8" VerticalAlignment="Center" />
 
     <!--Define a class for Commands-->
 
-    <StackPanel DataContext="{Binding VM_TempWorkerRepository}" Orientation="Horizontal" Grid.Row="9" Grid.Column="1" Margin="5,7,125,6" Grid.ColumnSpan="2">
-      <Button Name="btnAdd" Content="TILFØJ" Margin="5,8" Padding="3" Command="{Binding Path     = SaveCommand}" />
-      <Button Name="btnSearch" Content="SØG" Margin="5,8" Padding="3" Command="{Binding Path     = SearchCommand}" />
-      <Button Name="btnUpdate" Content="OPDATER" Margin="5,8" Padding="3" Command="{Binding Path = UpdateCommand}" />
-      <Button Name="btnDelete" Content="SLET" Margin="5,8" Padding="3" Command="{Binding Path    = DeleteCommand}" />
+    <StackPanel DataContext="{Binding TempWorkerCommands}" Orientation="Horizontal" Grid.Row="9" Grid.Column="1" Margin="5,7,125,6" Grid.ColumnSpan="2">
+      <Button Name="btnAdd" Content="TILFØJ" Margin="5,8" Padding="3" Command="{Binding CreateTempWorkerCommand}" />
+      <!-- NOT MADE YET  <Button Name="btnSearch" Content="SØG" Margin="5,8" Padding="3" Command="{Binding }" />   -->
+      <Button Name="btnUpdate" Content="OPDATER" Margin="5,8" Padding="3" Command="{Binding UpdateTempWorkerCommand}" />
+      <Button Name="btnDelete" Content="SLET" Margin="5,8" Padding="3" Command="{Binding DeleteTempWorkerCommand}" />
     </StackPanel>
 
     <!--LISTBOX-->
 
-    <ListBox Grid.Column="2" Grid.Row="1" Grid.RowSpan="8" Grid.ColumnSpan="3" Margin="1,0,299,0" ItemsSource="{Binding VM_TempWorkerRepository.VMTempWorkers}" />
+    <ListBox Grid.Column="2" Grid.Row="1" Grid.RowSpan="8" Grid.ColumnSpan="3" Margin="1,0,299,0" ItemsSource="{Binding VM_TempWorkerRepository.VMTempWorkers}" SelectedItem="{Binding VM_TempWorkerRepository.SelectedTempWorker, Mode=TwoWay}" />
+    
+    <!-- 
+    
+    <ListBox.ItemTemplate>
+    <DataTemplate>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding FirstName}" />
+            <TextBlock Text="{Binding LastName}" />
+        </StackPanel>
+    </DataTemplate>
+</ListBox.ItemTemplate>
+    
+    -->
+
 
     <!--LISTVIEW-->
 

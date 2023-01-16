@@ -12,7 +12,7 @@ namespace EksamensprojektMedDatabaseAdgang.Commands
 
         private RelayCommand _getTempWorkerCommand;
         private RelayCommand _getAllTempWorkersCommand;
-        private RelayCommand _saveTempWorkerCommand;
+        private RelayCommand _createTempWorkerCommand;
         private RelayCommand _updateTempWorkerCommand;
         private RelayCommand _deleteTempWorkerCommand;
 
@@ -27,14 +27,14 @@ namespace EksamensprojektMedDatabaseAdgang.Commands
 
             _getTempWorkerCommand = new RelayCommand(() => ExecuteGetTempWorker(this.vm_tempWorkerRepo), () => CanExecuteGetTempWorker(this.vm_tempWorkerRepo));
             _getAllTempWorkersCommand = new RelayCommand(() => ExecuteGetAllUsers(this.vm_tempWorkerRepo), () => CanExecuteGetAllTempWorkers(this.vm_tempWorkerRepo));
-            _saveTempWorkerCommand = new RelayCommand(() => ExecuteCreateTempWorker(this.vm_tempWorkerRepo), () => CanExecuteCreateTempWorker(this.vm_tempWorkerRepo));
+            _createTempWorkerCommand = new RelayCommand(() => ExecuteCreateTempWorker(this.vm_tempWorkerRepo), () => CanExecuteCreateTempWorker(this.vm_tempWorkerRepo));
             _updateTempWorkerCommand = new RelayCommand(() => ExecuteUpdateTempWorker(this.vm_tempWorkerRepo), () => CanExecuteUpdateTempWorker(this.vm_tempWorkerRepo));
             _deleteTempWorkerCommand = new RelayCommand(() => ExecuteDeleteTempWorker(this.vm_tempWorkerRepo), () => CanExecuteDeleteTempWorker(this.vm_tempWorkerRepo));
         }
 
         public ICommand GetTempWorkerCommand => _getTempWorkerCommand;
         public ICommand GetAllTempWorkersCommand => _getAllTempWorkersCommand;
-        public ICommand SaveTempWorkerCommand => _saveTempWorkerCommand;
+        public ICommand CreateTempWorkerCommand => _createTempWorkerCommand;
         public ICommand UpdateTempWorkerCommand => _updateTempWorkerCommand;
         public ICommand DeleteTempWorkerCommand => _deleteTempWorkerCommand;
 
@@ -86,10 +86,13 @@ namespace EksamensprojektMedDatabaseAdgang.Commands
             vm_tempWorkerRepo.UpdateTempWorker(worker);
         }
 
+
         private void ExecuteDeleteTempWorker(object parameter)
         {
-            vm_tempWorkerRepo.DeleteTempWorker(_mTempWorker.Id);
+            VM_TempWorker worker = (VM_TempWorker)parameter;
+            vm_tempWorkerRepo.DeleteTempWorker(worker.Id);
         }
+
 
         private bool CanExecuteDeleteTempWorker(object parameter)
         {

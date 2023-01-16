@@ -22,25 +22,32 @@ namespace EksamensprojektMedDatabaseAdgang.ViewModels
         private TempWorkerCommands _vmTempWorkerCommands;
         private M_TempWorker _mTempWorker;
         private M_TempWorkerRepository _mRepository;
+        private VM_TempWorker _newTempWorker;
         private VM_TempWorker _selectedTempWorker;
         private ObservableCollection<VM_TempWorker> _vmTempWorkers;
 
         public VM_TempWorkerRepository()
         {
             _mTempWorker = new M_TempWorker();
+            _newTempWorker = new VM_TempWorker();
             _selectedTempWorker = new VM_TempWorker(_mTempWorker);
             _mRepository = new M_TempWorkerRepository();
             _vmTempWorkers = new ObservableCollection<VM_TempWorker>();
         }
 
+        public VM_TempWorker NewTempWorker
+        {
+            get => _newTempWorker;
+            set => _newTempWorker = value;
+        }
+
         public VM_TempWorker SelectedTempWorker
         {
-            get
-            {
-                return _selectedTempWorker;
-            }
+            get => _selectedTempWorker;
+
             set
             {
+                // Not really sure what is going on here
                 if (_selectedTempWorker != value)
                 {
                     _selectedTempWorker = value;
@@ -61,12 +68,10 @@ namespace EksamensprojektMedDatabaseAdgang.ViewModels
             }
         }
 
-        // This could be a private help method if it is not bound or used directly, as SelectedWorker is using it.
+        
         public void UpdateTempWorker(VM_TempWorker updatedWorker)
         {
-            var index = _vmTempWorkers.Select((item, i) => new { item, i }).First(x => x.item.Id == updatedWorker.Id).i;
-            _vmTempWorkers.Insert(index, updatedWorker);
-
+            UpdateTempWorkerInCollection(updatedWorker);
             OnPropertyChanged(nameof(SelectedTempWorker));
             M_TempWorker modelWorker = ToModel(_selectedTempWorker);
             _mRepository.UpdateTempWorker(modelWorker);
@@ -78,6 +83,8 @@ namespace EksamensprojektMedDatabaseAdgang.ViewModels
             return new VM_TempWorker(modelWorker);
         }
 
+        // Get rid of the ConvertAll as it does not copy the properties of VM_TempWorkers to M_TempWorkers
+        // Also Change this method to a SearchTempWorker method. 
         public List<VM_TempWorker> GetAllTempWorkers(int id)
         {
             List<M_TempWorker> modelWorkers = _mRepository.GetAllTempWorkers();
@@ -86,22 +93,9 @@ namespace EksamensprojektMedDatabaseAdgang.ViewModels
 
         public void CreateTempWorker()
         {
-            VM_TempWorker newTempWorker = new VM_TempWorker(_mTempWorker);
-
-            // set properties of the newTempWorker based on user input
-            newTempWorker.FirstName = "DefaultFirstName";
-            newTempWorker.LastName = "DefaultLastName";
-            newTempWorker.Address = "DefaultAddress";
-            newTempWorker.City = "DefaultCity";
-            newTempWorker.ZipCode = "DefaultZipCode";                                             //newTempWorker.ZipCode.ToString();
-            newTempWorker.PersonalNumber = "DefaultPersonalNumber";                               // newTempWorker.PersonalNumber.ToString();
-
-            _vmTempWorkers.Add(newTempWorker);
-
-            // convert the newTempWorker to a M_TempWorker object
-            M_TempWorker modelWorker = ToModel(newTempWorker);
-
-            // save the newTempWorker to the database
+            var newWorker = new VM_TempWorker();
+            VMTempWorkers.Add(newWorker);
+            M_TempWorker modelWorker = ToModel(newWorker);
             _mRepository.CreateTempWorker(modelWorker);
         }
 
@@ -131,9 +125,15 @@ namespace EksamensprojektMedDatabaseAdgang.ViewModels
             };
         }
 
+        private void UpdateTempWorkerInCollection(VM_TempWorker updatedWorker)
+        {
+            var index = _vmTempWorkers.Select((item, i) => new { item, i }).First(x => x.item.Id == updatedWorker.Id).i;
+            _vmTempWorkers.Insert(index, updatedWorker);
+        }
+
         public ICommand GetTempWorkerCommand => _vmTempWorkerCommands.GetTempWorkerCommand;
         public ICommand GetAllTempWorkersCommand => _vmTempWorkerCommands.GetAllTempWorkersCommand;
-        public ICommand SaveTempWorkerCommand => _vmTempWorkerCommands.SaveTempWorkerCommand;
+        public ICommand CreateTempWorkerCommand => _vmTempWorkerCommands.CreateTempWorkerCommand;
         public ICommand UpdateTempWorkerCommand => _vmTempWorkerCommands.UpdateTempWorkerCommand;
         public ICommand DeleteTempWorkerCommand => _vmTempWorkerCommands.DeleteTempWorkerCommand;
 

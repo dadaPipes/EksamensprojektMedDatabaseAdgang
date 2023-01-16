@@ -1,4 +1,5 @@
-﻿using EksamensprojektMedDatabaseAdgang.Models;
+﻿using EksamensprojektMedDatabaseAdgang.Commands;
+using EksamensprojektMedDatabaseAdgang.Models;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -12,6 +13,7 @@ namespace EksamensprojektMedDatabaseAdgang.ViewModels
 
     public class MainViewModel : INotifyPropertyChanged
     {
+        private TempWorkerCommands _tempWorkerCommands;
         private VM_TempWorker _vmTempWorker;
         private VM_TempWorkerRepository _vmTempWorkerRepository;
 
@@ -19,13 +21,18 @@ namespace EksamensprojektMedDatabaseAdgang.ViewModels
         {
             _vmTempWorker = new VM_TempWorker(new M_TempWorker());
             _vmTempWorkerRepository = new VM_TempWorkerRepository();
+            _tempWorkerCommands= new TempWorkerCommands();
         }
 
-        public MainViewModel(VM_TempWorker vmTempWorker, VM_TempWorkerRepository vmTempWorkerRepository)
+        public MainViewModel(VM_TempWorker vmTempWorker, VM_TempWorkerRepository vmTempWorkerRepository, TempWorkerCommands tempWorkerCommands)
         {
+            
             _vmTempWorker = vmTempWorker;
             _vmTempWorkerRepository = vmTempWorkerRepository;
+            _tempWorkerCommands = tempWorkerCommands;
         }
+
+        public TempWorkerCommands TempWorkerCommands;
 
         public VM_TempWorker VM_TempWorker
         {

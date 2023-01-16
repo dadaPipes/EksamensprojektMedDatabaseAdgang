@@ -110,7 +110,7 @@ namespace EksamensprojektMedDatabaseAdgang.PersistenceLayer
                 using (DbCommand command = _connection.CreateCommand())
                 {
                     command.CommandText =
-                        "INSERT INTO TempWorkers (FirstName, LastName, Address, City, ZipCode, PersonalNumber,IsActive) " +
+                        "INSERT INTO TempWorkers (FirstName, LastName, Address, City, ZipCode, PersonalNumber, IsActive) " +
                         "VALUES (@FirstName, @LastName, @Address, @City, @ZipCode, @PersonalNumber, @IsActive)";
                     command.Parameters.Add(new SqlParameter("@FirstName", worker.FirstName));
                     command.Parameters.Add(new SqlParameter("@LastName", worker.LastName));
@@ -124,7 +124,7 @@ namespace EksamensprojektMedDatabaseAdgang.PersistenceLayer
             }
             catch (Exception ex)
             {
-                HandleException(ex);
+                HandleException(ex); // Message display to User/View
             }
         }
 

@@ -41,6 +41,7 @@ namespace EksamensprojektMedDatabaseAdgang.ViewModels
                 }
                 _worker.FirstName = value;
                 OnPropertyChanged(nameof(FirstName));
+                OnPropertyChanged(nameof(FullName));
                 OnErrorsChanged(nameof(FirstName));
             }
         }
@@ -61,9 +62,17 @@ namespace EksamensprojektMedDatabaseAdgang.ViewModels
                 }
                 _worker.LastName = value;
                 OnPropertyChanged(nameof(LastName));
+                OnPropertyChanged(nameof(FullName));
                 OnErrorsChanged(nameof(LastName));
             }
         }
+
+        public string FullName
+        {
+            get { return FirstName + " " + LastName; }
+        }
+
+
 
         public string Address
         {
@@ -118,7 +127,7 @@ namespace EksamensprojektMedDatabaseAdgang.ViewModels
                     {
                         _errors[nameof(ZipCode)] = new List<string> { "ZipCode must be 4 characters." };
                     }
-                    else if (_worker.ZipCode.Length != 4)
+                    else if (value.Length != 4)
                     {
                         _errors[nameof(ZipCode)] = new List<string> { "ZipCode must be 4 caracters" };
                     }
